@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bizar Photo Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 80px auto;
+      padding: 20px;
+      text-align: center;
+      background: #f5f5f5;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 10px;
+      font-size: 18px;
+      width: 80%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .gallery img {
+      width: 180px;
+      margin: 10px;
+      border-radius: 10px;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    .gallery a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📸 Bizar Client Portal</h2>
+  <p>Enter your access code to view your photos</p>
+
+  <input id="codeInput" placeholder="e.g. jane-x9z72" />
+  <br>
+  <button onclick="checkCode()">Submit</button>
+
+  <div id="gallery" style="display:none; margin-top: 30px;">
+    <h3 id="clientName"></h3>
+    <div class="gallery" id="images"></div>
+  </div>
+
+  <script>
+    async function checkCode() {
+      const code = document.getElementById("codeInput").value.trim().toLowerCase();
+      const sheetURL = "https://docs.google.com/spreadsheets/d/e/YOUR_SHEET_LINK_HERE/pub?output=csv"; // 🔁 Replace with your published sheet CSV URL
+
+      try {
+        const response = await fetch(sheetURL);
+        const text = await response.text();
+        const rows = text.split("\n").slice(1); // Skip header
+
+        let found = false;
+
+        rows.forEach(row => {
+          const columns = row.split(",");
+          const sheetCode = columns[1]?.trim().toLowerCase(); // Column B = Code
+          const name = columns[2]?.trim(); // Column C = Name
+          const linksRaw = columns[4]?.trim(); // Column E = Cleaned links from script
+
+          if (sheetCode === code) {
+            found = true;
+
+            const links = linksRaw.includes(" ") ? linksRaw.split(" ") : linksRaw.split(",");
+            let galleryHTML = "";
+
+            links.forEach(link => {
+              const cleanLink = link.trim();
+              galleryHTML += `
+                <a href="${cleanLink}" download target="_blank">
+                  <img src="${cleanLink}" alt="photo" />
+                </a>
+              `;
+            });
+
+            document.getElementById("clientName").innerText = `Hi ${name}, here are your photos:`;
+            document.getElementById("images").innerHTML = galleryHTML;
+            document.getElementById("gallery").style.display = "block";
+          }
+        });
+
+        if (!found) {
+          alert("Code not found. Please try again.");
+          document.getElementById("gallery").style.display = "none";
+        }
+      } catch (err) {
+        alert("Error fetching sheet data.");
+        console.error(err);
+      }
+    }
+  </script>
+
+</body>
+</html>
