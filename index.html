@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bizar Photo Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    input {
+      padding: 12px;
+      font-size: 18px;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 20px;
+      font-size: 18px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .download-btn {
+      display: block;
+      background-color: #1e1e1e;
+      color: white;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      width: 100%;
+      box-sizing: border-box;
+      margin-top: 15px;
+    }
+
+    .download-btn:hover {
+      background-color: #333;
+    }
+
+    #gallery {
+      margin-top: 30px;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px 15px;
+      }
+
+      input, button, .download-btn {
+        font-size: 16px;
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+
+<body oncontextmenu="return false" onkeydown="return disableInspect(event)">
+  <div class="container">
+    <h2>📸 Razib Photo Portal</h2>
+    <p>Enter your access code to download your photos</p>
+
+    <input id="codeInput" placeholder="e.g. sarah-x9z72" />
+    <button onclick="checkCode()">Submit</button>
+
+    <div id="gallery" style="display:none;">
+      <h3 id="clientName" style="margin-top: 20px;"></h3>
+      <div id="downloadButtons"></div>
+    </div>
+  </div>
+
+  <script>
+    function disableInspect(e) {
+      if (
+        (e.ctrlKey && e.shiftKey && e.keyCode === 73) || // Ctrl+Shift+I
+        (e.ctrlKey && e.shiftKey && e.keyCode === 74) || // Ctrl+Shift+J
+        (e.ctrlKey && e.keyCode === 85) ||               // Ctrl+U
+        (e.keyCode === 123)                              // F12
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    }
+  </script>
+
+  <!-- 🔐 Obfuscated photo portal logic -->
+  <script>
+    eval(function(p,a,c,k,e,d){e=function(c){return c.toString(36)};if(!''.replace(/^/,String)){while(c--){d[c.toString(a)]=k[c]||c.toString(a)}k=[function(e){return d[e]}];e=function(){return'\\w+'};c=1};while(c--){if(k[c]){p=p.replace(new RegExp('\\b'+e(c)+'\\b','g'),k[c])}}return p}('5 3=()=>{2 a=4.G("6").C().D().E();2 b="https://docs.google.com/spreadsheets/d/e/2PACX-1vQgqBuUqoD4hgRdYfIjl1EPSUwEtIb7gxQxkE1yY4veRgxaLgwm6UsxvXQr-qJZ3_SA87yf6-cZ1XxQ/pub?output=csv";H(b).I((c)=>c.F()).I((c)=>{2 d=c.J("\\n").K(1);2 e=!1;d.L((f)=>{2 g=f.M(/(".*?"|[^",\\s]+)(?=\\s*,|\\s*$)/g);g&&(()=>{2 h=g[1]?.N(/[\'"]+/g,"").C().E();2 i=g[2]?.N(/["]+/g,"").C();2 j=g[4]?.N(/["]+/g,"").C();h===a&&(e=!0,2 k=j.P(" ").O(","),2 l="",k.L((m,n)=>{2 o=m.N(/["]+/g,"").C();o&&(l+=`<a R="${o}" S="_blank" T="download" U="download-btn">📥 Download Photo ${n+1}</a>`)}),4.G("9").8=`Hi ${i}, download your photos below:`,4.G("A").B=l,4.G("7").V="W")})()});e||(X("Code not found. Please try again."),4.G("7").V="Y")}).Z((c)=>{X("Error fetching sheet data."),10.11(c)})};',62,63,'||||document|const|codeInput|gallery|innerText|clientName|downloadButtons|code|sheetURL|res|found|row|columns|sheetCode|name|linksRaw|text|checkCode|value|toLowerCase|trim|replace|split|includes|then|alert|getElementById|log|console|display|innerHTML|download|target|href|class|map|link|forEach|slice|match|join|startsWith|fetch|csv|text|split|forEach|replace|if|includes|a|block|none|alert|catch'.split('|'),0,{}))
+  </script>
+</body>
+</html>
