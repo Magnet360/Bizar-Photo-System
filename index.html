@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bizar Photography Download Portal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 80px auto;
+      padding: 20px;
+      text-align: center;
+      background: #f3f3f3;
+      border-radius: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      padding: 10px;
+      font-size: 18px;
+      width: 80%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #download {
+      display: none;
+      margin-top: 30px;
+    }
+    a.download-link {
+      display: inline-block;
+      margin-top: 10px;
+      background: #2e89ff;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📸 Bizar Client Download Portal</h2>
+  <p>Enter your unique code below to download your photos</p>
+
+  <input id="codeInput" placeholder="e.g. john-x8z7c2" />
+  <br>
+  <button onclick="checkCode()">Submit</button>
+
+  <div id="download">
+    <h3 id="clientName"></h3>
+    <a id="downloadLink" class="download-link" target="_blank">Download Photos</a>
+  </div>
+
+  <script>
+    async function checkCode() {
+      const code = document.getElementById("codeInput").value.trim().toLowerCase();
+      const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQgqBuUqoD4hgRdYfIjl1EPSUwEtIb7gxQxkE1yY4veRgxaLgwm6UsxvXQr-qJZ3_SA87yf6-cZ1XxQ/pub?output=csv"; // 🔁 replace with your link
+
+      try {
+        const response = await fetch(sheetURL);
+        const text = await response.text();
+        const rows = text.split("\n").slice(1); // skip header row
+
+        let found = false;
+
+        rows.forEach(row => {
+          const columns = row.split(",");
+          const sheetCode = columns[1]?.trim().toLowerCase();
+          const name = columns[2]?.trim();
+          const link = columns[3]?.trim();
+
+
+          if (sheetCode.trim().toLowerCase() === code) {
+            document.getElementById("clientName").innerText = `Hi ${name}, your download link:`;
+            document.getElementById("downloadLink").href = link.trim();
+            document.getElementById("download").style.display = "block";
+            found = true;
+          }
+        });
+
+        if (!found) {
+          alert("Code not found. Please double check it!");
+          document.getElementById("download").style.display = "none";
+        }
+      } catch (err) {
+        alert("Error fetching sheet data. Make sure your Google Sheet is published as CSV.");
+        console.error(err);
+      }
+    }
+  </script>
+
+</body>
+</html>
